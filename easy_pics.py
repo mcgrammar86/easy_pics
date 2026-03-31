@@ -32,6 +32,9 @@ try:
     PKEY_Subject  = getattr(pscon, "PKEY_Subject",  _fallback_pkey(3))
     PKEY_Comment  = getattr(pscon, "PKEY_Comment",  _fallback_pkey(6))
 
+    # IPropertyStore IID — propsys module doesn't expose it as an attribute
+    _IID_IPropertyStore = pywintypes.IID("{886D8EEB-8CF2-4446-8D02-CDBA1DBDCF99}")
+
     HAS_PROPSYS = True
 
 except ImportError:
@@ -40,7 +43,7 @@ except ImportError:
 
 def _open_store(path: str, flags: int):
     return propsys.SHGetPropertyStoreFromParsingName(
-        path, None, flags, propsys.IPropertyStore
+        path, None, flags, _IID_IPropertyStore
     )
 
 
